@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 const StudentForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     roll: "",
-    class: "",
+    studentClass: "",
     section: "",
     gender: "",
     dob: "",
@@ -26,7 +26,7 @@ const StudentForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8008/api/students", formData);
+      const response = await api.post('/students', formData);
       alert("Student Added Successfully");
       console.log(response.data);
     } catch (error) {
@@ -42,7 +42,7 @@ const StudentForm = () => {
         <div className="grid grid-cols-2 gap-4">
           <input type="text" name="name" placeholder="Student Name" value={formData.name} onChange={handleChange} required className="input" />
           <input type="number" name="roll" placeholder="Roll Number" value={formData.roll} onChange={handleChange} required className="input" />
-          <input type="text" name="class" placeholder="Class" value={formData.class} onChange={handleChange} required className="input" />
+          <input type="text" name="studentClass" placeholder="Class" value={formData.studentClass} onChange={handleChange} required className="input" />
           <input type="text" name="section" placeholder="Section" value={formData.section} onChange={handleChange} required className="input" />
           <select name="gender" value={formData.gender} onChange={handleChange} required className="input">
             <option value="">Select Gender</option>

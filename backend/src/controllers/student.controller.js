@@ -4,6 +4,7 @@ import { ApiError } from "../utils/apiError.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 
 const createStudent = asyncHandler(async (req, res) => {
+    console.log(req.body);
     const {
         name, roll, studentClass, section, gender, dob,
         parentType, parentName, parentNumber, parentEmail,
