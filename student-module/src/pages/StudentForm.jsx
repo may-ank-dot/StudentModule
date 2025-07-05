@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 const StudentForm = () => {
+  const { id } = useParams(); // <-- detect edit mode
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     roll: "",
@@ -17,6 +21,18 @@ const StudentForm = () => {
     permanentAddress: "",
   });
 
+  // Fetch student data if editing
+  useEffect(() => {
+    if (id) {
+      api.get(`/students/${id}`)
+        .then(res => setFormData(res.data.data))
+        .catch(err => {
+          console.error(err);
+          alert("Failed to load student data");
+        });
+    }
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -26,9 +42,14 @@ const StudentForm = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/students', formData);
-      alert("Student Added Successfully");
-      console.log(response.data);
+      if (id) {
+        await api.put(`/students/${id}`, formData);
+        alert("Student updated successfully");
+      } else {
+        await api.post("/students", formData);
+        alert("Student added successfully");
+      }
+      navigate("/students");
     } catch (error) {
       console.error(error);
       alert("Error submitting student info");
@@ -37,7 +58,7 @@ const StudentForm = () => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
-      <h2 className="text-2xl font-semibold mb-4">Student Information</h2>
+      <h2 className="text-2xl font-semibold mb-4">{id ? "Edit Student" : "Student Information"}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <input type="text" name="name" placeholder="Student Name" value={formData.name} onChange={handleChange} required className="input" />
@@ -72,7 +93,7 @@ const StudentForm = () => {
         </div>
 
         <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Submit
+          {id ? "Update" : "Submit"}
         </button>
       </form>
     </div>
