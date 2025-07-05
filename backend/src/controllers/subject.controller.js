@@ -22,6 +22,15 @@ const addSubject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, subject, "Subject added"))
 })
 
+const getAllSubjects = asyncHandler(async (req, res) => {
+  const subjects = await Subject.find()
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, subjects)
+    );
+})
+
 const getSubjects = asyncHandler(async (req, res) => {
   const { studentId } = req.params
 
@@ -34,4 +43,4 @@ const getSubjects = asyncHandler(async (req, res) => {
     )
 })
 
-export {addSubject, getSubjects}
+export {addSubject, getSubjects, getAllSubjects}

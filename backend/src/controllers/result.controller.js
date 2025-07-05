@@ -4,10 +4,10 @@ import { ApiResponse } from "../utils/apiResponse.js"
 import { ApiError } from "../utils/apiError.js"
 
 const addResult = asyncHandler(async (req, res) => {
-  const { studentId, subject, marksObtained, totalMarks, term, date } = req.body;
+  const { studentId, subject, marksObtained, totalMarks, term, date } = req.body
 
   if (!studentId || !subject || !marksObtained || !totalMarks || !term) {
-    throw new ApiError(400, "All fields are required");
+    throw new ApiError(400, "All fields are required")
   }
 
   const result = await Result.create({
@@ -26,13 +26,25 @@ const addResult = asyncHandler(async (req, res) => {
     )
 })
 
+const getAllResults = asyncHandler(async (req, res) => {
+  const result = await Result.find({})
+  if(!result) 
+    throw new ApiError(400, "no data found!")
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, result)
+    )
+})
+
 const getResults = asyncHandler(async (req, res) => {
-  const { studentId } = req.params;
-  const { term, fromDate, toDate } = req.query;
+  const { studentId } = req.params
+  const { term, fromDate, toDate } = req.query
 
-  let filter = { student: studentId };
+  let filter = { student: studentId }
 
-  if (term) filter.term = term;
+  if (term) filter.term = term
 
   if (fromDate && toDate) {
     filter.date = {
@@ -52,5 +64,6 @@ const getResults = asyncHandler(async (req, res) => {
 
 export {
     addResult,
+    getAllResults,
     getResults
 }

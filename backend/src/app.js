@@ -5,6 +5,7 @@ import attendanceRoutes from "./routes/attendence.routes.js"
 import resultRoutes from "./routes/result.routes.js"
 import subjectRoutes from "./routes/subject.routes.js"
 import timetableRoutes from "./routes/timetable.routes.js"
+import HomeworkRoutes from "./routes/homework.routes.js"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -24,5 +25,6 @@ app.use("/api/attendance", attendanceRoutes)
 app.use("/api/results", resultRoutes)
 app.use("/api/subjects", subjectRoutes)
 app.use("/api/timetable", timetableRoutes)
+app.use("/api/homework", HomeworkRoutes)
 
 export default app

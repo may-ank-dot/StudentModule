@@ -21,15 +21,10 @@ const AttendanceForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const entries = Object.entries(attendanceData);
-
     try {
+      const entries = Object.entries(attendanceData);
       for (const [studentId, status] of entries) {
-        await api.post("/attendance", {
-          studentId,
-          date,
-          status
-        });
+        await api.post("/attendance", { studentId, date, status });
       }
       alert("Attendance marked successfully");
     } catch (error) {
@@ -39,47 +34,57 @@ const AttendanceForm = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow max-w-4xl mx-auto mt-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">Mark Attendance</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="block mb-4 p-2 border rounded"
-        />
-        <table className="w-full border table-auto">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-2 border">Student Name</th>
-              <th className="p-2 border">Roll No</th>
-              <th className="p-2 border">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((s) => (
-              <tr key={s._id}>
-                <td className="p-2 border">{s.name}</td>
-                <td className="p-2 border">{s.roll}</td>
-                <td className="p-2 border">
-                  <select
-                    value={attendanceData[s._id] || ""}
-                    onChange={(e) => handleChange(s._id, e.target.value)}
-                    required
-                    className="p-1 border rounded"
-                  >
-                    <option value="">Select</option>
-                    <option value="Present">Present</option>
-                    <option value="Absent">Absent</option>
-                  </select>
-                </td>
+    <div className="bg-white p-8 rounded-2xl shadow-md max-w-5xl mx-auto mt-8">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Mark Attendance</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-6 text-center">
+          <label className="font-medium mr-2">Date:</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="border px-4 py-2 rounded-lg"
+          />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border border-gray-300 text-sm">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-3 border">Student Name</th>
+                <th className="p-3 border">Roll No</th>
+                <th className="p-3 border">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" type="submit">
-          Submit Attendance
-        </button>
+            </thead>
+            <tbody>
+              {students.map((s) => (
+                <tr key={s._id} className="hover:bg-gray-50">
+                  <td className="p-3 border">{s.name}</td>
+                  <td className="p-3 border">{s.roll}</td>
+                  <td className="p-3 border">
+                    <select
+                      value={attendanceData[s._id] || ""}
+                      onChange={(e) => handleChange(s._id, e.target.value)}
+                      required
+                      className="px-3 py-1 border rounded"
+                    >
+                      <option value="">Select</option>
+                      <option value="Present">Present</option>
+                      <option value="Absent">Absent</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-center mt-6">
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Submit Attendance
+          </button>
+        </div>
       </form>
     </div>
   );

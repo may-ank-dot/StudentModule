@@ -23,6 +23,16 @@ const markAttendance = asyncHandler(async (req, res) => {
     )
 })
 
+const getAllAttendance = asyncHandler(async (req, res) => {
+  const records = await Attendance.find();
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, records)
+    );
+});
+
+
 const getAttendanceByStudent = asyncHandler(async (req, res) => {
   const { studentId } = req.params
 
@@ -66,6 +76,7 @@ const getMonthlySummary = asyncHandler(async (req, res) => {
 })
 
 export {
+    getAllAttendance,
     getAttendanceByStudent,
     getMonthlySummary,
     markAttendance

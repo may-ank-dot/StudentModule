@@ -17,30 +17,36 @@ const ResultList = () => {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Results</h2>
-      <table className="w-full border">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border px-4 py-2">Student</th>
-            <th className="border px-4 py-2">Subject</th>
-            <th className="border px-4 py-2">Marks</th>
-            <th className="border px-4 py-2">Total Marks</th>
-            <th className="border px-4 py-2">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map(result => (
-            <tr key={result._id}>
-              <td className="border px-4 py-2">{result.student?.name} (Roll: {result.student?.roll})</td>
-              <td className="border px-4 py-2">{result.subject}</td>
-              <td className="border px-4 py-2">{result.marks}</td>
-              <td className="border px-4 py-2">{result.totalMarks}</td>
-              <td className="border px-4 py-2">{new Date(result.date).toLocaleDateString()}</td>
+    <div className="max-w-6xl mx-auto bg-white p-8 rounded-2xl shadow mt-8">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Results</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border border-gray-300 text-sm">
+          <thead className="bg-gray-100 text-gray-700 uppercase">
+            <tr>
+              <th className="px-4 py-2 border">Student</th>
+              <th className="px-4 py-2 border">Subject</th>
+              <th className="px-4 py-2 border">Marks</th>
+              <th className="px-4 py-2 border">Total Marks</th>
+              <th className="px-4 py-2 border">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="text-gray-800">
+            {results.map(result => (
+              <tr key={result._id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border">
+                  {result.student?.name} (Roll: {result.student?.roll})
+                </td>
+                <td className="px-4 py-2 border">{result.subject}</td>
+                <td className="px-4 py-2 border">{result.marks}</td>
+                <td className="px-4 py-2 border">{result.totalMarks}</td>
+                <td className="px-4 py-2 border">
+                  {new Date(result.date).toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

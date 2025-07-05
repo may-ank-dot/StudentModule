@@ -22,6 +22,14 @@ const setTimetable = asyncHandler(async (req, res) => {
         new ApiResponse(200, updated, "Timetable saved")
     )
 })
+const getAllTimetables = asyncHandler(async (req, res) => {
+  const timetables = await Timetable.find();
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, timetables)
+    );
+})
 
 const getTimetable = asyncHandler(async (req, res) => {
   const { studentId } = req.params;
@@ -37,4 +45,4 @@ const getTimetable = asyncHandler(async (req, res) => {
     )
 })
 
-export {setTimetable, getTimetable}
+export {getAllTimetables, setTimetable, getTimetable}
